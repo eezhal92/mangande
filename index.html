@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>resepku.com</title>
+    <link rel="stylesheet" type="text/css" href="resepku.css">
+</head>
+<body>
+    <header-comp></header-comp>
+    <div class="banner top-banner">
+        <div class="overlay"></div>
+        <div class="container container-absolute">
+            <div class="description">
+                <h2>Sate Super Kaili</h2>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+            </div>
+        </div>
+    </div>
+    <section class="best-recipe">
+        <div class="container">
+            <h2>Resep Terbaik</h2>
+
+            <recipe-row :recipes="recipes"></recipe-row>
+
+            <recipe-row :recipes="recipes"></recipe-row>
+
+            <pagination :prev-url="prevUrl" :next-url="nextUrl"></pagination>
+
+        </div>
+    </section>
+    <div class="banner event-banner">
+        <div class="overlay overlay-red"></div>
+        <div class="container container-absolute">
+            <div class="description description-center">
+                <h2>Event Makan Bubur Manado</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eius.</p>
+            </div>
+        </div>
+    </div>
+    <section class="action-form">
+        <div class="container">
+            <h2>Daftar Sekarang</h2>
+            <form action="#" method="post">
+                <div class="form-group">
+                    <div class="half">
+                        <input type="text" name="nama" class="full" placeholder="Nama">
+                    </div>
+                    <div class="half">
+                        <input type="email" name="email" class="full" placeholder="Email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="full" name="password" placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-action" value="Daftar">
+                </div>
+            </form>
+        </div>
+    </section>  
+    <footer>
+        <div class="container">
+            <p class="center">Copyright 2015. Resepku.com</p>
+        </div>
+    </footer>
+    <script src="vue.js"></script>
+    <script src="jquery.min.js"></script>
+    <script src="moment.js"></script>
+    
+    <!-- Templates -->
+    
+    <template id="header-tpl">
+        <header>
+            <div class="container">
+                <div class="top">
+                    <h1 class="site-title">resepku.com</h1>
+                    <input type="text" class="search" placeholder="Cari...">
+                </div>
+                <div class="secondary-nav">
+                    <nav>
+                    <ul class="left-nav">
+                        <li v-for="category in categories"><a href="category.html">{{ category }}</a></li>
+                    </ul>
+                    <ul class="right-nav">
+                        <li><a href="signup.html"><b>Daftar</b></a></li>
+                        <li><a href="login.html">Masuk</a></li>
+                    </ul>
+                </nav>
+                </div>
+            </div>
+        </header>
+    </template>
+    
+    <template id="recipe-item-tpl">
+        <div class="item">
+            <img src="img/recipe-item.jpg">
+            <div class="meta">
+                <div class="details">
+                    <h3><a href="single.html">{{ recipe.title }}</a></h3>
+                    <span class="author">{{ recipe.user.name }} @ {{ recipe.created_at | date }}</span>
+                    <p>{{ recipe.body.slice(0, 80) + '...' }}</p>
+                </div>
+                <div class="rating">
+                    <a :class="[loved ? 'loved' : '']" v-on:click="toggleLove">Suka</a>
+                    <span class="number">{{ recipe.love }}</span>
+                </div>
+            </div>
+        </div>
+    </template>
+    
+    <template id="recipe-row-tpl">
+        <div class="row">
+            <recipe-item v-for="recipe in recipes" :recipe="recipe"></recipe-item>
+        </div>
+    </template>
+    
+    <template id="pagination-tpl">
+        <div class="row">
+            <ul class="pagination pagination-simple">
+                <li :class="[prevUrl ? '' : 'disabled']"><a style="cursor: pointer" @click="prevPage">Sebelumnya</a></li>
+                <li :class="[nextUrl ? '' : 'disabled']"><a style="cursor: pointer" @click="nextPage">Selanjutnya</a></li>
+            </ul>
+        </div>
+    </template>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').then(function () {
+                console.info('service worker registered')
+            })
+        }
+    </script>
+    <script src="main.js"></script>
+</body>
+</html>
